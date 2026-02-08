@@ -1,0 +1,27 @@
+services:
+  # Type: web (for Vite frontend)
+  - type: web
+    name: svg-bulk-vectorizer-web
+    env: node
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm install && node dist/index.js
+    envVars:
+      - key: VITE_APP_ID
+        value: svg-bulk-vectorizer
+      - key: NODE_ENV
+        value: production
+
+  # Type: pserv (for Node.js backend)
+  - type: pserv
+    name: svg-bulk-vectorizer-api
+    env: node
+    buildCommand: pnpm install --filter server
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    disk:
+      name: data
+      sizeGB: 1
